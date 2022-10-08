@@ -30,16 +30,50 @@ Task.getTaskById = function createUser(taskId, result) {
   });
 };
 Task.getAllTask = function getAllTask(result) {
-  sql.query("SELECT * FROM tasks", function (err, res) {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-    } else {
-      console.log("tasks : ", res);
+  sql.query(
+    "SELECT * FROM tasks as a, taskdetail as b WHERE a.id = b.taskdetail_id",
+    function (err, res) {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+      } else {
+        console.log("tasks : ", res);
+        var tempRes = [];
+        var detail = [];
+        res.forEach((i) => {
+          if (i.id === i.taskdetail_id) {
+            detail.push({
+              content: i.taskdetail_content,
+              username: i.taskdetail_username,
+            });
+            tempRes.push({
+              id: i.id,
+              task: i.task,
+              status: i.status,
+              detail: detail,
+              created_at: i.created_at,
+            });
+          }
+        });
+        // res.forEach((i) => {
+        //   detail.push({
+        //     content: i.taskdetail_content,
+        //     username: i.taskdetail_username,
+        //   });
+        //   tempRes.push({
+        //     id: i.id,
+        //     task: i.task,
+        //     status: i.status,
+        //     detail: detail,
+        //     created_at: i.created_at,
+        //   });
+        // });
 
-      result(null, res);
+        result(null, tempRes);
+        //result(null, res);
+      }
     }
-  });
+  );
 };
 Task.updateById = function (id, task, result) {
   sql.query(
