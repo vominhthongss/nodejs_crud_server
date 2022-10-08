@@ -30,7 +30,7 @@ Task.getTaskById = function createUser(taskId, result) {
   });
 };
 Task.getAllTask = function getAllTask(result) {
-  sql.query("Select * from tasks", function (err, res) {
+  sql.query("SELECT * FROM tasks", function (err, res) {
     if (err) {
       console.log("error: ", err);
       result(null, err);
