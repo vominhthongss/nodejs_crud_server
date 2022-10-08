@@ -1,0 +1,11 @@
+#####
+GET http://localhost:3000/tasks
+Content-Type: application/json; charset=utf-8
+######
+POST http://localhost:3000/tasks
+Content-Type: application/json; charset=utf-8
+
+{
+    "task": "create repo",
+    "status": "1"
+}
