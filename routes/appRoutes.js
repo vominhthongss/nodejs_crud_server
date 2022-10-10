@@ -13,17 +13,23 @@ module.exports = function (app) {
     next();
   });
   app.disable("etag");
-
+//taskController
   var taskController = require("../controllers/taskController");
-  // todoList Routes
   app.get("/", (req, res) => {
     res.send("hello");
   });
   app.route("/tasks").get(taskController.list_all_tasks).post(taskController.create_a_task);
-
   app
     .route("/tasks/:taskId")
     .get(taskController.read_a_task)
     .put(taskController.update_a_task)
     .delete(taskController.delete_a_task);
+//postController
+var postController = require("../controllers/postController");
+app.route("/posts").get(postController.list_all_posts);
+//userController
+var userController = require("../controllers/userController");
+app.route("/login").get(userController.login);
 };
+
+

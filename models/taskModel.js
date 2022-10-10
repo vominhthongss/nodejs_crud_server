@@ -1,4 +1,5 @@
 "user strict";
+const { json } = require("body-parser");
 var sql = require("./db.js");
 
 //Task object constructor
@@ -14,7 +15,7 @@ Task.createTask = function createUser(newTask, result) {
       console.log("error: ", err);
       result(err, null);
     } else {
-      console.log(res.insertId);
+      console.log(res);
       result(null, res.insertId);
     }
   });
@@ -31,7 +32,7 @@ Task.getTaskById = function createUser(taskId, result) {
 };
 Task.getAllTask = function getAllTask(result) {
   sql.query(
-    "SELECT * FROM tasks as a, taskdetail as b WHERE a.id = b.taskdetail_id",
+    "SELECT * FROM tasks as a, taskdetail as b WHERE a.id = b.taskp_id ORDER BY a.id ASC",
     function (err, res) {
       if (err) {
         console.log("error: ", err);
@@ -41,36 +42,33 @@ Task.getAllTask = function getAllTask(result) {
         var tempRes = [];
         var detail = [];
         res.forEach((i) => {
-          if (i.id === i.taskdetail_id) {
-            detail.push({
-              content: i.taskdetail_content,
-              username: i.taskdetail_username,
-            });
-            tempRes.push({
-              id: i.id,
-              task: i.task,
-              status: i.status,
-              detail: detail,
-              created_at: i.created_at,
-            });
+          detail = [];
+          res.forEach((j) => {
+            if (i.id === j.taskp_id) {
+              detail.push({
+                id: j.taskp_id,
+                content: j.taskdetail_content,
+                username: j.taskdetail_username,
+              });
+            }
+          });
+          tempRes.push({
+            id: i.id,
+            task: i.task,
+            status: i.status,
+            detail: detail,
+            created_at: i.created_at,
+          });
+        });
+        var res = [];
+        tempRes.forEach((element) => {
+          if (!res.find((x) => x.id === element.id)) {
+            res.push(element);
           }
         });
-        // res.forEach((i) => {
-        //   detail.push({
-        //     content: i.taskdetail_content,
-        //     username: i.taskdetail_username,
-        //   });
-        //   tempRes.push({
-        //     id: i.id,
-        //     task: i.task,
-        //     status: i.status,
-        //     detail: detail,
-        //     created_at: i.created_at,
-        //   });
-        // });
 
-        result(null, tempRes);
-        //result(null, res);
+        //result(null, tempRes);
+        result(null, res);
       }
     }
   );
