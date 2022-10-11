@@ -14,10 +14,8 @@ Post.getAllPost = function getAllPost(result) {
     "SELECT * FROM POST",
     function (err, res) {
       if (err) {
-      //  console.log("error: ", err);
         result(null, err);
       } else {
-       // console.log("post : ", res);
         result(null, res);
       }
     }

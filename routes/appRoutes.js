@@ -27,6 +27,7 @@ module.exports = function (app) {
 //postController
 var postController = require("../controllers/postController");
 app.route("/posts").get(postController.list_all_posts);
+
 //userController
 var userController = require("../controllers/userController");
 app.route("/login").post(userController.login);
