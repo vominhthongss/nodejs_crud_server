@@ -29,7 +29,9 @@ var postController = require("../controllers/postController");
 app.route("/posts").get(postController.list_all_posts);
 //userController
 var userController = require("../controllers/userController");
-app.route("/login").get(userController.login);
+app.route("/login").post(userController.login);
+
+app.route("/user/:user_name").get(userController.getuser);
 };
 
 

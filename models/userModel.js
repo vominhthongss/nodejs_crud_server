@@ -1,31 +1,35 @@
 "user strict";
 const { json } = require("body-parser");
 var sql = require("./db.js");
-var User = function (user) {
-  console.log(user);
-  // this.post_id=post.post_id;
-  // this.user_name=post.user_name;
-  // this.post_content=post.post_content;
-  // this.post_spoil=post.post_spoil;
-  // this.post_isdelete=post.post_isdelete;
+var User = function (objUser) {
+  this.user = objUser;
 };
-User.login = function login(user,result) {
+User.login = function login(_user, result) {
+  var user_name = _user.user.user_name;
+  var user_password = _user.user.user_password;
   sql.query(
-    "SELECT * FROM USER ",
+    "SELECT * from USER where USER_NAME=? AND USER_PASSWORD=? AND USER_ISDELETE=0",
+    [user_name, user_password],
     function (err, res) {
-      console.log	('user= ',user.user_name)
       if (err) {
-      //  console.log("error: ", err);
         result(null, err);
       } else {
-       // console.log("user : ", res);
         result(null, res);
       }
     }
   );
-
 };
-
-
-
+User.getuser = function getuser(user_name, result) {
+  sql.query(
+    "SELECT * from USER where USER_NAME=? AND USER_ISDELETE=0",
+    user_name,
+    function (err, res) {
+      if (err) {
+        result(null, err);
+      } else {
+        result(null, res);
+      }
+    }
+  );
+};
 module.exports = User;
