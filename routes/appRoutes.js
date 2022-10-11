@@ -31,7 +31,12 @@ app.route("/posts").get(postController.list_all_posts);
 var userController = require("../controllers/userController");
 app.route("/login").post(userController.login);
 
+
 app.route("/user/:user_name").get(userController.getuser);
+
+
+app.route("/userrecomendlist").get(userController.getuserrecomendlist);
+
 };
 
 

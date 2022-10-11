@@ -8,14 +8,22 @@ exports.login = function (req, res) {
     res
       .status(400)
       .send({ error: true, message: "Please provide user/status" });
+  } else {
+    User.login(_user, function (err, user) {
+      if (err) res.send(err);
+      res.send(user);
+    });
   }
-  User.login(_user, function (err, user) {
+};
+exports.getuser = function (req, res) {
+  User.getuser(req.params.user_name, function (err, user) {
     if (err) res.send(err);
     res.send(user);
   });
 };
-exports.getuser = function (req, res) {
-  User.getuser(req.params.user_name, function (err, user) {
+
+exports.getuserrecomendlist = function (req, res) {
+  User.getuserrecomendlist(function (err, user) {
     if (err) res.send(err);
     res.send(user);
   });

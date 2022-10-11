@@ -27,6 +27,18 @@ User.getuser = function getuser(user_name, result) {
       if (err) {
         result(null, err);
       } else {
+        result(null, res[0]);
+      }
+    }
+  );
+};
+User.getuserrecomendlist = function getuserrecomendlist(result) {
+  sql.query(
+    "SELECT * from USER where USER_ISDELETE=0",
+    function (err, res) {
+      if (err) {
+        result(null, err);
+      } else {
         result(null, res);
       }
     }
