@@ -26,7 +26,7 @@ module.exports = function (app) {
     .delete(taskController.delete_a_task);
 //postController
 var postController = require("../controllers/postController");
-app.route("/posts").get(postController.list_all_posts);
+app.route("/postfeedlist").get(postController.list_all_posts);
 
 //userController
 var userController = require("../controllers/userController");
@@ -37,6 +37,10 @@ app.route("/user/:user_name").get(userController.getuser);
 
 
 app.route("/userrecomendlist").get(userController.getuserrecomendlist);
+
+//commentController
+var commentController = require("../controllers/commentController");
+app.route("/comment/:postId").get(commentController.getCommentByPostId);
 
 };
 
