@@ -17,7 +17,21 @@ Comment.getCommentByPostId = function getCommentByPostId(postId, result) {
       if (err) {
         result(null, err);
       } else {
-        result(null, res);
+        var tempCommentList = [];
+        res.forEach((j) => {
+          tempCommentList.push({
+            commentId: j.COMMENT_ID.toString(),
+            user: {
+              username: j.USER_NAME,
+              avatarUrl: j.USER_AVATARURL,
+              bio: "",
+            },
+            content: j.COMMENT_CONTENT,
+            parent: j.COMMENT_PARENT.toString(),
+            postId: j.POST_ID.toString(),
+          });
+        });
+        result(null, tempCommentList);
       }
     }
   );
