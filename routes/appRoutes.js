@@ -14,16 +14,16 @@ module.exports = function (app) {
   });
   app.disable("etag");
 //taskController
-  var taskController = require("../controllers/taskController");
-  app.get("/", (req, res) => {
-    res.send("hello");
-  });
-  app.route("/tasks").get(taskController.list_all_tasks).post(taskController.create_a_task);
-  app
-    .route("/tasks/:taskId")
-    .get(taskController.read_a_task)
-    .put(taskController.update_a_task)
-    .delete(taskController.delete_a_task);
+  // var taskController = require("../controllers/taskController");
+  // app.get("/", (req, res) => {
+  //   res.send("hello");
+  // });
+  // app.route("/tasks").get(taskController.list_all_tasks).post(taskController.create_a_task);
+  // app
+  //   .route("/tasks/:taskId")
+  //   .get(taskController.read_a_task)
+  //   .put(taskController.update_a_task)
+  //   .delete(taskController.delete_a_task);
 //postController
 var postController = require("../controllers/postController");
 app.route("/postfeedlist").get(postController.list_all_posts);
