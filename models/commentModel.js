@@ -1,13 +1,14 @@
 "user strict";
 const { json } = require("body-parser");
 var sql = require("./db.js");
-var Comment = function (comment) {
+var Comment = function (objComment) {
   //console.log(post);
   // this.post_id=post.post_id;
   // this.user_name=post.user_name;
   // this.post_content=post.post_content;
   // this.post_spoil=post.post_spoil;
   // this.post_isdelete=post.post_isdelete;
+  this.comment = objComment;
 };
 Comment.getCommentByPostId = function getCommentByPostId(postId, result) {
   sql.query(
@@ -32,6 +33,27 @@ Comment.getCommentByPostId = function getCommentByPostId(postId, result) {
           });
         });
         result(null, tempCommentList);
+      }
+    }
+  );
+};
+
+Comment.createComment = function getCommentByPostId(_comment, result) {
+  sql.query(
+    "INSERT INTO comment (POST_ID, USER_NAME, COMMENT_CONTENT, COMMENT_PARENT) VALUES (?,?,?,?)",
+    [
+      _comment.comment.postId,
+      _comment.comment.user.username,
+      _comment.comment.content,
+      _comment.comment.parent,
+    ],
+    function (err, res) {
+      console.log(_comment);
+      if (err) {
+        result(null, err);
+      } else {
+        console.log(res);
+        result(null, res);
       }
     }
   );

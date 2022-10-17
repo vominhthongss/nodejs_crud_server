@@ -42,6 +42,8 @@ app.route("/userrecomendlist").get(userController.getuserrecomendlist);
 var commentController = require("../controllers/commentController");
 app.route("/comment/:postId").get(commentController.getCommentByPostId);
 
+app.route("/comment").post(commentController.createComment);
+
 };
 
 
