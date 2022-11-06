@@ -19,28 +19,64 @@ Post.getAllPost = function getAllPost(result) {
         var tempPostList = [];
 
         res.forEach((i) => {
-          console.log	(i);
+          console.log(i);
           var tempCommentList = [];
+          let tempCom = [];
           var tempMediaList = [];
+          let tempMe = [];
           res.forEach((j) => {
-            if (j.POST_ID == i.POST_ID ) {
-              tempCommentList.push({
-                commentId: j.COMMENT_ID+'',
+            if (j.POST_ID == i.POST_ID) {
+              //
+              tempCom.push({
+                commentId: j.COMMENT_ID + "",
                 user: {
                   username: j.USER_NAME,
                   avatarUrl: j.USER_AVATARURL,
-                  bio:''
+                  bio: "",
                 },
                 content: j.COMMENT_CONTENT,
-                parent: j.COMMENT_PARENT+'',
-                postId: j.POST_ID+'',
+                parent: j.COMMENT_PARENT + "",
+                postId: j.POST_ID + "",
+              });
+              //
+              // tempCommentList.push({
+              //   commentId: j.COMMENT_ID+'',
+              //   user: {
+              //     username: j.USER_NAME,
+              //     avatarUrl: j.USER_AVATARURL,
+              //     bio:''
+              //   },
+              //   content: j.COMMENT_CONTENT,
+              //   parent: j.COMMENT_PARENT+'',
+              //   postId: j.POST_ID+'',
+              // });
+
+              tempCom.forEach((element) => {
+                if (
+                  !tempCommentList.find(
+                    (x) => x.commentId === element.commentId
+                  )
+                ) {
+                  tempCommentList.push(element);
+                }
               });
             }
           });
           res.forEach((k) => {
             if (k.POST_ID == i.POST_ID) {
-              tempMediaList.push({
+              // tempMediaList.push({
+              //   mediaId:k.MEDIA_ID,
+              //   url: k.MEDIA_URL,
+              // });
+              tempMe.push({
+                mediaId: k.MEDIA_ID,
+                type: k.MEDIA_TYPE,
                 url: k.MEDIA_URL,
+              });
+              tempMe.forEach((element) => {
+                if (!tempMediaList.find((x) => x.mediaId === element.mediaId)) {
+                  tempMediaList.push(element);
+                }
               });
             }
           });
@@ -55,9 +91,9 @@ Post.getAllPost = function getAllPost(result) {
                 avatarUrl: i.USER_AVATARURL,
                 bio: "",
               },
-              rate: i.EVALUATION_RATE!=null ? i.EVALUATION_RATE+'' : '',
+              rate: i.EVALUATION_RATE != null ? i.EVALUATION_RATE + "" : "",
               filmtag: {
-                filmId: i.FILM_ID+'',
+                filmId: i.FILM_ID + "",
                 filmName: i.FILM_NAME,
               },
             },
@@ -112,5 +148,17 @@ Post.getAllPost = function getAllPost(result) {
 //     }
 //   );
 // };
-
+Post.postpost = function postpost(post, result) {
+  sql.query(
+    "INSERT INTO post (USER_NAME, POST_CONTENT, POST_SPOIL) VALUES (?,?,?)",
+    [post.username, post.content, post.isSpoil],
+    function (err, res) {
+      if (err) {
+        result(null, err);
+      } else {
+        result(null, res);
+      }
+    }
+  );
+};
 module.exports = Post;
