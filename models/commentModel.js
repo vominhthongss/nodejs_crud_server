@@ -38,7 +38,7 @@ Comment.getCommentByPostId = function getCommentByPostId(postId, result) {
   );
 };
 
-Comment.createComment = function getCommentByPostId(_comment, result) {
+Comment.createComment = function createComment(_comment, result) {
   sql.query(
     "INSERT INTO comment (POST_ID, USER_NAME, COMMENT_CONTENT, COMMENT_PARENT) VALUES (?,?,?,?)",
     [

@@ -28,21 +28,15 @@ module.exports = function (app) {
   var postController = require("../controllers/postController");
   app.route("/postfeedlist").get(postController.list_all_posts);
   app.route("/post").post(postController.postpost);
-
   //userController
   var userController = require("../controllers/userController");
   app.route("/login").post(userController.login);
-
   app.route("/user/:user_name").get(userController.getuser);
-
   app.route("/userrecomendlist").get(userController.getuserrecomendlist);
-
   //commentController
   var commentController = require("../controllers/commentController");
   app.route("/comment/:postId").get(commentController.getCommentByPostId);
-
   app.route("/comment").post(commentController.createComment);
-
   //filmController
   var filmController = require("../controllers/filmController");
   app.route("/film").get(filmController.getAllFilm);
